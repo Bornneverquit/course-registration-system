@@ -2,8 +2,11 @@ package com.example.Course.Registration.System.Controller;
 
 import com.example.Course.Registration.System.Service.CourseService;
 import com.example.Course.Registration.System.model.Course;
+import com.example.Course.Registration.System.model.CourseRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,5 +21,21 @@ public class CourseController {
     @GetMapping("courses")
     public List<Course> availableCourses(){
         return courseService.availableCourses();
+    }
+
+    @GetMapping("courses/enrolled")
+    public List<CourseRegistry> getEnrolledStudents(){
+        return courseService.enrolledStudents();
+    }
+
+    @PostMapping("courses/register")
+    public String registerCourse(@RequestParam("name") String name,
+                                 @RequestParam("emailId") String emailId,
+                                 @RequestParam("courseName") String courseName){
+
+        courseService.enrollCourse(name , emailId, courseName);
+
+        return "Congratulations "+name+" Enrollment sucessfull for "+courseName;
+
     }
 }
